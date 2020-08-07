@@ -8,12 +8,14 @@ Planned features:
    * sorted by type / section
 * Add items to a pool to be re-used
 * Edit items and possible additional information
+* Some kind of login / user management
 * Share a list between users
-* Some kind of login / user management thing
 
 Objectives:
-* React is fairly (very) new to me, so expecting confusion in how to structure state, components etc.
-* Learn something about progressive web apps, since the scope of the app is fairly simple. (Maybe learn about React Native?)
+* React is very new to me, so expecting confusion and learning experiences in how to structure state, components etc.
+* Apply concepts from fullstackopen.com in a real-world example
+* Actually create a "finished", usable project
+* Maybe later: Learn something about progressive web apps or React Native?
 
 Tools used:
 * https://github.com/mars/heroku-cra-node
