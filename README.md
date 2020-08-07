@@ -13,7 +13,7 @@ Planned features:
 
 Objectives:
 * React is very new to me, so expecting confusion and learning experiences in how to structure state, components etc.
-* Apply concepts from fullstackopen.com in a real-world example
+* Apply concepts from [fullstackopen.com](https://fullstackopen.com) in a real-world example
 * Actually create a "finished", usable project
 * Maybe later: Learn something about progressive web apps or React Native?
 
