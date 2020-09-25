@@ -5,11 +5,11 @@ import MainList from './components/MainList'
 import CheckedList from './components/CheckedList'
 
 let items = [
-  { 'id': 1, 'name': 'bananas', 'section': 'vegetable', 'checked': false },
-  { 'id': 2, 'name': 'apples', 'section': 'vegetable', 'checked': false },
-  { 'id': 3, 'name': 'bread', 'section': 'dry', 'checked': false },
-  { 'id': 4, 'name': 'butter', 'section': 'cold', 'checked': true },
-  { 'id': 5, 'name': 'cheese', 'section': 'cold', 'checked': false },
+  { 'id': 1, 'name': 'bananas', 'section': 'vegetable', 'checked': false, 'additionalInfo': '3 pcs' },
+  { 'id': 2, 'name': 'apples', 'section': 'vegetable', 'checked': false, 'additionalInfo': '3 pcs' },
+  { 'id': 3, 'name': 'bread', 'section': 'dry', 'checked': false, 'additionalInfo': '3 pcs' },
+  { 'id': 4, 'name': 'butter', 'section': 'cold', 'checked': true, 'additionalInfo': '3 pcs' },
+  { 'id': 5, 'name': 'cheese', 'section': 'cold', 'checked': false, 'additionalInfo': '3 pcs' },
 ]
 
 function App() {
