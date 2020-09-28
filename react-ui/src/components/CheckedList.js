@@ -9,7 +9,7 @@ const CheckedList = ({ listItems, handleToggle }) => {
             {
                 listItems
                     .filter(item => item.checked)
-                    .map(item => <ShoppingListItem key={item.id} item={item} handleToggle={handleToggle(item.id)} />)
+                    .map(item => <ShoppingListItem key={item.id} item={item} onToggle={handleToggle(item.id)} />)
             }
         </List>
     )

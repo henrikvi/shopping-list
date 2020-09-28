@@ -6,19 +6,19 @@ import CheckIcon from '@material-ui/icons/Check'
 import AddIcon from '@material-ui/icons/Add'
 
 
-const ShoppingListItem = ({ item, handleToggle, handleClick }) => {
+const ShoppingListItem = ({ item, onToggle, onClick }) => {
     const { name, checked, additionalInfo } = item
 
     return (
         <ListItem>
             <ListItemText primary={name} secondary={additionalInfo} />
             <ListItemIcon>
-                <IconButton color='primary' onClick={handleToggle}>
+                <IconButton color='primary' onClick={onToggle}>
                     {checked ? <AddIcon /> : <CheckIcon />}
                 </IconButton>
             </ListItemIcon>
             <ListItemSecondaryAction>
-                <IconButton onClick={handleClick}>
+                <IconButton onClick={onClick}>
                     <EditIcon />
                 </IconButton>
             </ListItemSecondaryAction>

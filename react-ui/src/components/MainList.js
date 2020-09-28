@@ -64,8 +64,8 @@ const MainList = ({ listItems, setListItems, handleToggle }) => {
                                 <ShoppingListItem
                                     key={item.id}
                                     item={item}
-                                    handleToggle={handleToggle(item.id)}
-                                    handleClick={handleClick(item)}
+                                    onToggle={handleToggle(item.id)}
+                                    onClick={handleClick(item)}
                                 />
                             )
                         })
