@@ -57,8 +57,10 @@ const MainList = ({ listItems, setListItems, handleToggle }) => {
 
     // Form
 
-    const handleChange = (propName) => (event) => {
-        setDialog({...dialog, [propName]: event.target.value})
+    const handleChange = (event) => {
+        // Not completely sure if event.target.name is a legit way of doing this.
+        // If not, maybe pass the propName as an argument and return an appropriate handler
+        setDialog({...dialog, [event.target.name]: event.target.value})
     }
 
     return (
@@ -84,22 +86,24 @@ const MainList = ({ listItems, setListItems, handleToggle }) => {
                 <DialogTitle id="form-dialog-title">Edit item</DialogTitle>
                 <DialogContent>
                     <TextField
+                        name="itemName"
                         value={dialog.itemName}
-                        onChange={handleChange('itemName')}
+                        onChange={handleChange}
                         label="Item name"
                         fullWidth
                         margin="normal"
                     />
                     <TextField
+                        name="itemAdditionalInfo"
                         value={dialog.itemAdditionalInfo}
-                        onChange={handleChange('itemAdditionalInfo')}
+                        onChange={handleChange}
                         label="Additional info"
                         fullWidth
                         margin="normal"
                     />
                     <FormControl margin="normal">
                     <InputLabel>Section</InputLabel>
-                        <Select native value={dialog.itemSection} onChange={handleChange('itemSection')}>
+                        <Select name="itemSection" native value={dialog.itemSection} onChange={handleChange}>
                             <option value='' disabled />
                             <option value='cold'>Cold</option>
                             <option value='dry'>Dry</option>
