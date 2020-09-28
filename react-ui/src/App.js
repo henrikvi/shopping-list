@@ -27,6 +27,50 @@ function App() {
     ))
   }
 
+  // Dialog
+
+  const [dialog, setDialog] = React.useState({
+    open: false,
+    itemId: '',
+    itemName: '',
+    itemAdditionalInfo: '',
+    itemSection: '',
+    itemChecked: false
+})
+
+const handleClick = ({ id, name, additionalInfo, section, checked }) => () => {
+    setDialog({
+        open: true,
+        itemId: id,
+        itemName: name,
+        itemAdditionalInfo: additionalInfo,
+        itemSection: section,
+        itemChecked: checked
+    })
+}
+
+const handleSubmit = () => {
+    setDialog({...dialog, open: false})
+    const newItem = {
+        id: dialog.itemId,
+        name: dialog.itemName,
+        additionalInfo: dialog.itemAdditionalInfo,
+        section: dialog.itemSection,
+        checked: dialog.itemChecked
+    }
+    setListItems(listItems.map(item => item.id !== dialog.itemId ? item : newItem))
+}
+
+const handleClose = () => setDialog({...dialog, open: false})
+
+// Form
+
+const handleChange = (event) => {
+    // Not completely sure if event.target.name is a legit way of doing this.
+    // If not, maybe pass the propName as an argument and return an appropriate handler
+    setDialog({...dialog, [event.target.name]: event.target.value})
+}
+
   return (
     <Grid container direction='column'>
       <Grid item xs={12}>
@@ -44,7 +88,15 @@ function App() {
           </AppBar>
 
           <Paper hidden={tabValue !== 'MainList'}>
-            <MainList listItems={listItems} setListItems={setListItems} handleToggle={handleToggle} />
+            <MainList
+              listItems={listItems}
+              dialog={dialog}
+              handleToggle={handleToggle}
+              handleClick={handleClick}
+              handleSubmit={handleSubmit}
+              handleClose={handleClose}
+              handleChange={handleChange}
+              />
           </Paper>
           <Paper hidden={tabValue !== 'CheckedList'}>
             <CheckedList listItems={listItems} setListItems={setListItems} handleToggle={handleToggle} />
