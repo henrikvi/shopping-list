@@ -20,37 +20,45 @@ import FormControl from '@material-ui/core/FormControl'
 const MainList = ({ listItems, setListItems, handleToggle }) => {
 
     // Dialog
-    const [dialogOpen, setDialogOpen] = React.useState(false)
 
-    const handleClick = ({ id, name, additionalInfo, section }) => () => {
-        setDialogOpen(true)
-        setItemId(id)
-        setItemName(name)
-        setAdditionalInfo(additionalInfo)
-        setSection(section)
+    const [dialog, setDialog] = React.useState({
+        open: false,
+        itemId: '',
+        itemName: '',
+        itemAdditionalInfo: '',
+        itemSection: '',
+        itemChecked: false
+    })
+
+    const handleClick = ({ id, name, additionalInfo, section, checked }) => () => {
+        setDialog({
+            open: true,
+            itemId: id,
+            itemName: name,
+            itemAdditionalInfo: additionalInfo,
+            itemSection: section,
+            itemChecked: checked
+        })
     }
 
     const handleSubmit = () => {
-        setDialogOpen(false)
+        setDialog({...dialog, open: false})
         const newItem = {
-            'id': itemId,
-            'name': itemName,
-            'additionalInfo': additionalInfo,
-            'section': section,
-            'checked': false
+            id: dialog.itemId,
+            name: dialog.itemName,
+            additionalInfo: dialog.itemAdditionalInfo,
+            section: dialog.itemSection,
+            checked: dialog.itemChecked
         }
-        setListItems(listItems.map(item => item.id !== itemId ? item : newItem))
+        setListItems(listItems.map(item => item.id !== dialog.itemId ? item : newItem))
     }
+
+    const handleClose = () => setDialog({...dialog, open: false})
 
     // Form
 
-    const [itemId, setItemId] = React.useState('')
-    const [itemName, setItemName] = React.useState('')
-    const [additionalInfo, setAdditionalInfo] = React.useState('')
-    const [section, setSection] = React.useState('')
-
-    const handleChange = (setState) => (event) => {
-        setState(event.target.value)
+    const handleChange = (propName) => (event) => {
+        setDialog({...dialog, [propName]: event.target.value})
     }
 
     return (
@@ -72,26 +80,26 @@ const MainList = ({ listItems, setListItems, handleToggle }) => {
                 }
             </List>
 
-            <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+            <Dialog open={dialog.open} onClose={handleClose}>
                 <DialogTitle id="form-dialog-title">Edit item</DialogTitle>
                 <DialogContent>
                     <TextField
-                        value={itemName}
-                        onChange={handleChange(setItemName)}
+                        value={dialog.itemName}
+                        onChange={handleChange('itemName')}
                         label="Item name"
                         fullWidth
                         margin="normal"
                     />
                     <TextField
-                        value={additionalInfo}
-                        onChange={handleChange(setAdditionalInfo)}
+                        value={dialog.itemAdditionalInfo}
+                        onChange={handleChange('itemAdditionalInfo')}
                         label="Additional info"
                         fullWidth
                         margin="normal"
                     />
                     <FormControl margin="normal">
                     <InputLabel>Section</InputLabel>
-                        <Select native value={section} onChange={handleChange(setSection)}>
+                        <Select native value={dialog.itemSection} onChange={handleChange('itemSection')}>
                             <option value='' disabled />
                             <option value='cold'>Cold</option>
                             <option value='dry'>Dry</option>
@@ -101,7 +109,7 @@ const MainList = ({ listItems, setListItems, handleToggle }) => {
                     </FormControl>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setDialogOpen(false)} color="primary">
+                    <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
                     <Button onClick={handleSubmit} color="primary">
