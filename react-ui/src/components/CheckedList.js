@@ -1,16 +1,15 @@
 import React from 'react'
 import { List } from '@material-ui/core'
 import ShoppingListItem from './ShoppingListItem'
-import handleToggle from '../utils/list'
 
-const CheckedList = ({ listItems, setListItems }) => {
+const CheckedList = ({ listItems, handleToggle }) => {
 
     return (
         <List>
             {
                 listItems
                     .filter(item => item.checked)
-                    .map(item => <ShoppingListItem key={item.id} item={item} handleToggle={handleToggle(item.id, setListItems, listItems)} />)
+                    .map(item => <ShoppingListItem key={item.id} item={item} handleToggle={handleToggle(item.id)} />)
             }
         </List>
     )

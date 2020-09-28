@@ -1,7 +1,6 @@
 import React from 'react'
 import { List } from '@material-ui/core'
 import ShoppingListItem from './ShoppingListItem'
-import handleToggle from '../utils/list'
 
 
 // Dialog dependencies
@@ -18,7 +17,7 @@ import Select from '@material-ui/core/Select'
 import FormControl from '@material-ui/core/FormControl'
 
 
-const MainList = ({ listItems, setListItems }) => {
+const MainList = ({ listItems, setListItems, handleToggle }) => {
 
     // Dialog
     const [dialogOpen, setDialogOpen] = React.useState(false)
@@ -65,7 +64,7 @@ const MainList = ({ listItems, setListItems }) => {
                                 <ShoppingListItem
                                     key={item.id}
                                     item={item}
-                                    handleToggle={handleToggle(item.id, setListItems, listItems)}
+                                    handleToggle={handleToggle(item.id)}
                                     handleClick={handleClick(item)}
                                 />
                             )

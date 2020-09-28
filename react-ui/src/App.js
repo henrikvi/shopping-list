@@ -21,6 +21,12 @@ function App() {
     setTabValue(newValue)
   }
 
+  const handleToggle = (id) => () => {
+    setListItems(listItems.map(item => item.id !== id ?
+      item : { ...item, checked: !item.checked }
+    ))
+  }
+
   return (
     <Grid container direction='column'>
       <Grid item xs={12}>
@@ -38,10 +44,10 @@ function App() {
           </AppBar>
 
           <Paper hidden={tabValue !== 'MainList'}>
-            <MainList listItems={listItems} setListItems={setListItems} />
+            <MainList listItems={listItems} setListItems={setListItems} handleToggle={handleToggle} />
           </Paper>
           <Paper hidden={tabValue !== 'CheckedList'}>
-            <CheckedList listItems={listItems} setListItems={setListItems} />
+            <CheckedList listItems={listItems} setListItems={setListItems} handleToggle={handleToggle} />
           </Paper>
         </Grid>
         <Grid item xs={false} sm={3} />
