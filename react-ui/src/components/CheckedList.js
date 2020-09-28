@@ -3,13 +3,6 @@ import { List } from '@material-ui/core'
 import ShoppingListItem from './ShoppingListItem'
 import handleToggle from '../utils/list'
 
-/*
-CheckedList provides a reference of list items that have already
-been picked up, and provides means to delete items (I don't want
-my girlfriend deleting items that should stay available in the
-pool of common groceries – she will, if its too easy)
-*/
-
 const CheckedList = ({ listItems, setListItems }) => {
 
     return (
