@@ -4,7 +4,14 @@ import ShoppingListItem from './ShoppingListItem'
 import ItemEditDialog from './ItemEditDialog'
 
 
-const MainList = ({ listItems, handleToggle, handleClick, dialog, handleSubmit, handleClose, handleChange }) => {
+const MainList = ({ listItems, setListItems, handleToggle, dialogOpen, setDialogOpen }) => {
+    
+    const [selectedItem, setSelectedItem] = React.useState()
+
+    const handleClick = (item) => () => {
+        setDialogOpen(true)  
+        setSelectedItem(item)
+      }
 
     return (
         <>
@@ -25,10 +32,11 @@ const MainList = ({ listItems, handleToggle, handleClick, dialog, handleSubmit, 
                 }
             </List>
             <ItemEditDialog
-                dialog={dialog}
-                handleSubmit={handleSubmit}
-                handleClose={handleClose}
-                handleChange={handleChange}
+                dialogOpen={dialogOpen}
+                setDialogOpen={setDialogOpen}
+                selectedItem={selectedItem}
+                listItems={listItems}
+                setListItems={setListItems}
             />
         </>
     )

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 // Dialog dependencies
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -12,14 +12,52 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Select from '@material-ui/core/Select'
 import FormControl from '@material-ui/core/FormControl'
 
-const ItemEditDialog = ({ dialog, handleSubmit, handleClose, handleChange }) => {
+
+const ItemEditDialog = ({ dialogOpen, setDialogOpen, selectedItem, listItems, setListItems }) => {
+
+    const [dialogFields, setDialogFields] = useState({
+        itemId: '',
+        itemName: '',
+        itemAdditionalInfo: '',
+        itemSection: '',
+        itemChecked: false
+    })
+
+    useEffect(() => {
+        if (selectedItem) {
+            setDialogFields({
+                itemId: selectedItem.id,
+                itemName: selectedItem.name,
+                itemAdditionalInfo: selectedItem.additionalInfo,
+                itemSection: selectedItem.section,
+                itemChecked: selectedItem.checked
+            })
+        }
+    }, [selectedItem])
+
+    const handleChange = (event) => setDialogFields({...dialogFields, [event.target.name]: event.target.value})
+
+    const handleClose = () => setDialogOpen(false)
+
+    const handleSubmit = () => {
+        setDialogOpen(false)
+        const newItem = {
+            id: dialogFields.itemId,
+            name: dialogFields.itemName,
+            additionalInfo: dialogFields.itemAdditionalInfo,
+            section: dialogFields.itemSection,
+            checked: dialogFields.itemChecked
+        }
+        setListItems(listItems.map(item => item.id !== dialogFields.itemId ? item : newItem))
+    }
+
     return (
-        <Dialog open={dialog.open} onClose={handleClose}>
+        <Dialog open={dialogOpen} onClose={handleClose}>
             <DialogTitle id="form-dialog-title">Edit item</DialogTitle>
             <DialogContent>
                 <TextField
                     name="itemName"
-                    value={dialog.itemName}
+                    value={dialogFields.itemName}
                     onChange={handleChange}
                     label="Item name"
                     fullWidth
@@ -27,7 +65,7 @@ const ItemEditDialog = ({ dialog, handleSubmit, handleClose, handleChange }) => 
                 />
                 <TextField
                     name="itemAdditionalInfo"
-                    value={dialog.itemAdditionalInfo}
+                    value={dialogFields.itemAdditionalInfo}
                     onChange={handleChange}
                     label="Additional info"
                     fullWidth
@@ -35,7 +73,7 @@ const ItemEditDialog = ({ dialog, handleSubmit, handleClose, handleChange }) => 
                 />
                 <FormControl margin="normal">
                     <InputLabel>Section</InputLabel>
-                    <Select name="itemSection" native value={dialog.itemSection} onChange={handleChange}>
+                    <Select name="itemSection" native value={dialogFields.itemSection} onChange={handleChange}>
                         <option value='' disabled />
                         <option value='cold'>Cold</option>
                         <option value='dry'>Dry</option>

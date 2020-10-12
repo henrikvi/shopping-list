@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Grid, Paper, Tab, Tabs, AppBar } from '@material-ui/core'
 import Header from './components/Header'
 import MainList from './components/MainList'
@@ -27,49 +27,7 @@ function App() {
     ))
   }
 
-  // Dialog
-
-  const [dialog, setDialog] = React.useState({
-    open: false,
-    itemId: '',
-    itemName: '',
-    itemAdditionalInfo: '',
-    itemSection: '',
-    itemChecked: false
-})
-
-const handleClick = ({ id, name, additionalInfo, section, checked }) => () => {
-    setDialog({
-        open: true,
-        itemId: id,
-        itemName: name,
-        itemAdditionalInfo: additionalInfo,
-        itemSection: section,
-        itemChecked: checked
-    })
-}
-
-const handleSubmit = () => {
-    setDialog({...dialog, open: false})
-    const newItem = {
-        id: dialog.itemId,
-        name: dialog.itemName,
-        additionalInfo: dialog.itemAdditionalInfo,
-        section: dialog.itemSection,
-        checked: dialog.itemChecked
-    }
-    setListItems(listItems.map(item => item.id !== dialog.itemId ? item : newItem))
-}
-
-const handleClose = () => setDialog({...dialog, open: false})
-
-// Form
-
-const handleChange = (event) => {
-    // Not completely sure if event.target.name is a legit way of doing this.
-    // If not, maybe pass the propName as an argument and return an appropriate handler
-    setDialog({...dialog, [event.target.name]: event.target.value})
-}
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   return (
     <Grid container direction='column'>
@@ -90,12 +48,10 @@ const handleChange = (event) => {
           <Paper hidden={tabValue !== 'MainList'}>
             <MainList
               listItems={listItems}
-              dialog={dialog}
+              setListItems={setListItems}
+              dialogOpen={dialogOpen}
+              setDialogOpen={setDialogOpen}
               handleToggle={handleToggle}
-              handleClick={handleClick}
-              handleSubmit={handleSubmit}
-              handleClose={handleClose}
-              handleChange={handleChange}
               />
           </Paper>
           <Paper hidden={tabValue !== 'CheckedList'}>
