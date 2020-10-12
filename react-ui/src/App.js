@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Grid, Paper, Tab, Tabs, AppBar } from '@material-ui/core'
 import Header from './components/Header'
+import Content from './components/Content'
 import MainList from './components/MainList'
 import CheckedList from './components/CheckedList'
 
@@ -31,35 +32,27 @@ function App() {
 
   return (
     <Grid container direction='column'>
-      <Grid item xs={12}>
-        <Header />
-      </Grid>
-      <Grid item container>
-        <Grid item xs={false} sm={3} />
-        <Grid item xs={12} sm={6}>
-
-          <AppBar position="static" color='default' elevation={2}>
-            <Tabs value={tabValue} onChange={handleTabChange} variant='fullWidth'>
-              <Tab label="Shopping list" value='MainList' />
-              <Tab label="All items" value='CheckedList' />
-            </Tabs>
-          </AppBar>
-
-          <Paper hidden={tabValue !== 'MainList'}>
-            <MainList
-              listItems={listItems}
-              setListItems={setListItems}
-              dialogOpen={dialogOpen}
-              setDialogOpen={setDialogOpen}
-              handleToggle={handleToggle}
-              />
-          </Paper>
-          <Paper hidden={tabValue !== 'CheckedList'}>
-            <CheckedList listItems={listItems} setListItems={setListItems} handleToggle={handleToggle} />
-          </Paper>
-        </Grid>
-        <Grid item xs={false} sm={3} />
-      </Grid>
+      <Header />
+      <Content>
+        <AppBar position="static" color='default' elevation={2}>
+          <Tabs value={tabValue} onChange={handleTabChange} variant='fullWidth'>
+            <Tab label="Shopping list" value='MainList' />
+            <Tab label="All items" value='CheckedList' />
+          </Tabs>
+        </AppBar>
+        <Paper hidden={tabValue !== 'MainList'}>
+          <MainList
+            listItems={listItems}
+            setListItems={setListItems}
+            dialogOpen={dialogOpen}
+            setDialogOpen={setDialogOpen}
+            handleToggle={handleToggle}
+          />
+        </Paper>
+        <Paper hidden={tabValue !== 'CheckedList'}>
+          <CheckedList listItems={listItems} setListItems={setListItems} handleToggle={handleToggle} />
+        </Paper>
+      </Content>
     </Grid>
   )
 }
