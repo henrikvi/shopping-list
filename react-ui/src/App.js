@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Grid, Paper, Tab, Tabs, AppBar } from '@material-ui/core'
+import { Grid, Paper, Tab, Tabs, AppBar, List } from '@material-ui/core'
 import Header from './components/Header'
 import Content from './components/Content'
-import MainList from './components/MainList'
-import CheckedList from './components/CheckedList'
+import ShoppingListItem from './components/ShoppingListItem'
+import ItemEditDialog from './components/ItemEditDialog'
 
 let items = [
   { 'id': 1, 'name': 'bananas', 'section': 'vegetable', 'checked': false, 'additionalInfo': '3 pcs' },
@@ -19,6 +19,8 @@ function App() {
   const [tabValue, setTabValue] = useState('MainList')
   const [dialogOpen, setDialogOpen] = useState(false)
 
+  const [selectedItem, setSelectedItem] = React.useState()
+
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue)
   }
@@ -27,6 +29,27 @@ function App() {
     setListItems(listItems.map(item => item.id !== id ?
       item : { ...item, checked: !item.checked }
     ))
+  }
+
+  const handleClick = (item) => () => {
+    setDialogOpen(true)
+    setSelectedItem(item)
+  }
+
+  const getMainListItems = () => {
+    return (
+      listItems
+        .filter(item => !item.checked)
+        .map(item => <ShoppingListItem key={item.id} item={item} onToggle={handleToggle(item.id)} onClick={handleClick(item)} />)
+    )
+  }
+
+  const getCheckedListItems = () => {
+    return (
+      listItems
+        .filter(item => item.checked)
+        .map(item => <ShoppingListItem key={item.id} item={item} onToggle={handleToggle(item.id)} onClick={handleClick(item)} />)
+    )
   }
 
   const updateListItem = (newItem) => {
@@ -46,18 +69,22 @@ function App() {
           </Tabs>
         </AppBar>
         <Paper hidden={tabValue !== 'MainList'}>
-          <MainList
-            listItems={listItems}
-            dialogOpen={dialogOpen}
-            setDialogOpen={setDialogOpen}
-            handleToggle={handleToggle}
-            updateListItem={updateListItem}
-          />
+          <List>
+            {getMainListItems()}
+          </List>
         </Paper>
         <Paper hidden={tabValue !== 'CheckedList'}>
-          <CheckedList listItems={listItems} setListItems={setListItems} handleToggle={handleToggle} />
+          <List>
+            {getCheckedListItems()}
+          </List>
         </Paper>
       </Content>
+      <ItemEditDialog
+            dialogOpen={dialogOpen}
+            setDialogOpen={setDialogOpen}
+            selectedItem={selectedItem}
+            updateListItem={updateListItem}
+      />
     </Grid>
   )
 }
