@@ -13,7 +13,7 @@ import Select from '@material-ui/core/Select'
 import FormControl from '@material-ui/core/FormControl'
 
 
-const ItemEditDialog = ({ dialogOpen, setDialogOpen, selectedItem, listItems, setListItems }) => {
+const ItemEditDialog = ({ dialogOpen, setDialogOpen, selectedItem, updateListItem }) => {
 
     const [dialogFields, setDialogFields] = useState({
         itemId: '',
@@ -48,7 +48,7 @@ const ItemEditDialog = ({ dialogOpen, setDialogOpen, selectedItem, listItems, se
             section: dialogFields.itemSection,
             checked: dialogFields.itemChecked
         }
-        setListItems(listItems.map(item => item.id !== dialogFields.itemId ? item : newItem))
+        updateListItem(newItem)
     }
 
     return (

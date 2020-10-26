@@ -17,6 +17,7 @@ function App() {
 
   const [listItems, setListItems] = useState(items)
   const [tabValue, setTabValue] = useState('MainList')
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue)
@@ -28,7 +29,11 @@ function App() {
     ))
   }
 
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const updateListItem = (newItem) => {
+    // map through items, return unmodified item if id doesn't match and newItem if it matches
+    setListItems(listItems.map(item => item.id !== newItem.id ? item : newItem))
+  }
+
 
   return (
     <Grid container direction='column'>
@@ -43,10 +48,10 @@ function App() {
         <Paper hidden={tabValue !== 'MainList'}>
           <MainList
             listItems={listItems}
-            setListItems={setListItems}
             dialogOpen={dialogOpen}
             setDialogOpen={setDialogOpen}
             handleToggle={handleToggle}
+            updateListItem={updateListItem}
           />
         </Paper>
         <Paper hidden={tabValue !== 'CheckedList'}>

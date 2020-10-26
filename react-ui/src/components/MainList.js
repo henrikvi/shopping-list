@@ -4,7 +4,7 @@ import ShoppingListItem from './ShoppingListItem'
 import ItemEditDialog from './ItemEditDialog'
 
 
-const MainList = ({ listItems, setListItems, handleToggle, dialogOpen, setDialogOpen }) => {
+const MainList = ({ listItems, handleToggle, dialogOpen, setDialogOpen, updateListItem }) => {
     
     const [selectedItem, setSelectedItem] = React.useState()
 
@@ -13,30 +13,24 @@ const MainList = ({ listItems, setListItems, handleToggle, dialogOpen, setDialog
         setSelectedItem(item)
       }
 
+    const getListItems = () => {
+        return (
+            listItems
+                .filter(item => !item.checked)
+                .map(item => <ShoppingListItem key={item.id} item={item} onToggle={handleToggle(item.id)} onClick={handleClick(item)} />)
+        )
+    }
+
     return (
         <>
             <List>
-                {
-                    listItems
-                        .filter(item => !item.checked)
-                        .map(item => {
-                            return (
-                                <ShoppingListItem
-                                    key={item.id}
-                                    item={item}
-                                    onToggle={handleToggle(item.id)}
-                                    onClick={handleClick(item)}
-                                />
-                            )
-                        })
-                }
+                {getListItems()}
             </List>
             <ItemEditDialog
                 dialogOpen={dialogOpen}
                 setDialogOpen={setDialogOpen}
                 selectedItem={selectedItem}
-                listItems={listItems}
-                setListItems={setListItems}
+                updateListItem={updateListItem}
             />
         </>
     )
