@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -9,7 +10,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 
-const ItemEditDialog = ({ dialogOpen, setDialogOpen, selectedItem, updateListItem }) => {
+const ItemEditDialog = ({
+  dialogOpen,
+  setDialogOpen,
+  selectedItem,
+  updateListItem,
+}) => {
   const [dialogFields, setDialogFields] = useState({
     itemId: '',
     itemName: '',
@@ -90,6 +96,25 @@ const ItemEditDialog = ({ dialogOpen, setDialogOpen, selectedItem, updateListIte
     </Dialog>
 
   );
+};
+
+ItemEditDialog.propTypes = {
+  dialogOpen: PropTypes.bool.isRequired,
+  setDialogOpen: PropTypes.func.isRequired,
+  selectedItem: PropTypes.exact({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    additionalInfo: PropTypes.string.isRequired,
+    section: PropTypes.oneOf([
+      '',
+      'cold',
+      'dry',
+      'frozen',
+      'vegetable',
+    ]),
+    checked: PropTypes.bool.isRequired,
+  }).isRequired,
+  updateListItem: PropTypes.func.isRequired,
 };
 
 export default ItemEditDialog;

@@ -1,5 +1,11 @@
 import React from 'react';
-import { Grid, AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
+import {
+  Grid,
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const Header = () => (

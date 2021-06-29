@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   ListItem,
   ListItemText,
@@ -28,6 +29,16 @@ const ShoppingListItem = ({ item, onToggle, onClick }) => {
       </ListItemSecondaryAction>
     </ListItem>
   );
+};
+
+ShoppingListItem.propTypes = {
+  item: PropTypes.exact({
+    name: PropTypes.string.isRequired,
+    additionalInfo: PropTypes.string.isRequired,
+    checked: PropTypes.bool.isRequired,
+  }).isRequired,
+  onToggle: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default ShoppingListItem;
