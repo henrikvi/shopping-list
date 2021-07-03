@@ -12,10 +12,16 @@ import CheckIcon from '@material-ui/icons/Check';
 import AddIcon from '@material-ui/icons/Add';
 
 const ShoppingListItem = ({ item, onToggle, onClick }) => {
-  const { name, checked, additionalInfo } = item;
+  const {
+    id,
+    name,
+    section,
+    checked,
+    additionalInfo,
+  } = item;
 
   return (
-    <ListItem>
+    <ListItem id={id} section={section}>
       <ListItemText primary={name} secondary={additionalInfo} />
       <ListItemIcon>
         <IconButton color="primary" onClick={onToggle}>
@@ -33,7 +39,9 @@ const ShoppingListItem = ({ item, onToggle, onClick }) => {
 
 ShoppingListItem.propTypes = {
   item: PropTypes.exact({
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
+    section: PropTypes.string.isRequired,
     additionalInfo: PropTypes.string.isRequired,
     checked: PropTypes.bool.isRequired,
   }).isRequired,

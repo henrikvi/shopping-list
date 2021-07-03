@@ -113,8 +113,12 @@ ItemEditDialog.propTypes = {
       'vegetable',
     ]),
     checked: PropTypes.bool.isRequired,
-  }).isRequired,
+  }),
   updateListItem: PropTypes.func.isRequired,
+};
+
+ItemEditDialog.defaultProps = {
+  selectedItem: undefined,
 };
 
 export default ItemEditDialog;
