@@ -11,6 +11,7 @@ import Header from './components/Header';
 import Content from './components/Content';
 import ShoppingListItem from './components/ShoppingListItem';
 import ItemEditDialog from './components/ItemEditDialog';
+import FloatingAddButton from './components/FloatingAddButton';
 
 const items = [
   {
@@ -79,10 +80,16 @@ function App() {
   );
 
   const updateListItem = (newItem) => {
-    // map through items, return unmodified item if id doesn't match and newItem if it matches
-    setListItems(listItems.map((item) => (
-      item.id !== newItem.id ? item : newItem
-    )));
+    if (listItems.find((item) => item.id === newItem.id)) {
+      // If an item with the same id exists:
+      // map through items, return unmodified item if
+      // id doesn't match and newItem if it matches
+      setListItems(listItems.map((item) => (
+        item.id !== newItem.id ? item : newItem
+      )));
+    } else {
+      setListItems(listItems.concat(newItem));
+    }
   };
 
   return (
@@ -106,6 +113,12 @@ function App() {
           </List>
         </Paper>
       </Content>
+      <FloatingAddButton onClick={handleClick(
+        {
+          id: 6, name: '', section: '', checked: false, additionalInfo: '',
+        },
+      )}
+      />
       <ItemEditDialog
         dialogOpen={dialogOpen}
         setDialogOpen={setDialogOpen}
