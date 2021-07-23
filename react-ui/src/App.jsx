@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Grid,
   Paper,
@@ -12,31 +12,28 @@ import Content from './components/Content';
 import ShoppingListItem from './components/ShoppingListItem';
 import ItemEditDialog from './components/ItemEditDialog';
 import FloatingAddButton from './components/FloatingAddButton';
-
-const items = [
-  {
-    id: 1, name: 'bananas', section: 'vegetable', checked: false, additionalInfo: '3 pcs',
-  },
-  {
-    id: 2, name: 'apples', section: 'vegetable', checked: false, additionalInfo: '3 pcs',
-  },
-  {
-    id: 3, name: 'bread', section: 'dry', checked: false, additionalInfo: '3 pcs',
-  },
-  {
-    id: 4, name: 'butter', section: 'cold', checked: true, additionalInfo: '3 pcs',
-  },
-  {
-    id: 5, name: 'cheese', section: 'cold', checked: false, additionalInfo: '3 pcs',
-  },
-];
+import itemsService from './services/http/items';
 
 function App() {
-  const [listItems, setListItems] = useState(items);
+  const [listItems, setListItems] = useState([]);
   const [tabValue, setTabValue] = useState('MainList');
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const [selectedItem, setSelectedItem] = React.useState();
+
+  const getListItems = async () => {
+    try {
+      const asd = await itemsService.getAllItems();
+      setListItems(asd);
+    } catch (error) {
+      // eslint-disable-next-line no-alert
+      alert('Error retrieving items');
+    }
+  };
+
+  useEffect(() => {
+    getListItems();
+  }, []);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
