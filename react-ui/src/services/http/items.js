@@ -9,4 +9,9 @@ const getAllItems = async () => {
   return response.data;
 };
 
-export default { getAllItems };
+const addItem = async (newItem) => {
+  const response = await items.post('', newItem);
+  return response.data;
+};
+
+export default { getAllItems, addItem };

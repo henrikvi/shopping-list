@@ -91,6 +91,7 @@ function App() {
       )));
     } else {
       setListItems(listItems.concat(newItem));
+      itemsService.addItem(newItem);
     }
   };
 
