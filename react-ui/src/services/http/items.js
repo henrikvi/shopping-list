@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const client = axios.create({
+const items = axios.create({
   baseURL: 'http://localhost:3001/items',
 });
 
 const getAllItems = async () => {
-  const response = await client.get();
+  const response = await items.get();
   return response.data;
 };
 
