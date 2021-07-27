@@ -39,7 +39,7 @@ function App() {
     setTabValue(newValue);
   };
 
-  const handleToggle = (id) => () => {
+  const toggleItemChecked = (id) => () => {
     setListItems(listItems.map((item) => (
       item.id !== id ? item : { ...item, checked: !item.checked }
     )));
@@ -57,7 +57,7 @@ function App() {
         <ShoppingListItem
           key={item.id}
           item={item}
-          onToggle={handleToggle(item.id)}
+          toggleItemChecked={toggleItemChecked(item.id)}
           openItemEditDialog={openItemEditDialog(item)}
         />
       ))
@@ -70,7 +70,7 @@ function App() {
         <ShoppingListItem
           key={item.id}
           item={item}
-          onToggle={handleToggle(item.id)}
+          toggleItemChecked={toggleItemChecked(item.id)}
           openItemEditDialog={openItemEditDialog(item)}
         />
       ))
