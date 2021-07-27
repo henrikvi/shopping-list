@@ -77,6 +77,11 @@ function App() {
   );
 
   const updateListItem = (newItem) => {
+    if (!newItem.id) {
+      // eslint-disable-next-line no-param-reassign
+      newItem.id = listItems.length + 1;
+    }
+
     if (listItems.find((item) => item.id === newItem.id)) {
       // If an item with the same id exists:
       // map through items, return unmodified item if
@@ -110,12 +115,7 @@ function App() {
           </List>
         </Paper>
       </Content>
-      <FloatingAddButton openItemEditDialog={openItemEditDialog(
-        {
-          id: 6, name: '', section: '', checked: false, additionalInfo: '',
-        },
-      )}
-      />
+      <FloatingAddButton openItemEditDialog={openItemEditDialog()} />
       <ItemEditDialog
         dialogOpen={dialogOpen}
         setDialogOpen={setDialogOpen}

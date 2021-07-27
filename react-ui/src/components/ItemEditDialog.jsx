@@ -16,13 +16,15 @@ const ItemEditDialog = ({
   selectedItem,
   updateListItem,
 }) => {
-  const [dialogFields, setDialogFields] = useState({
+  const emptyItem = {
     itemId: '',
     itemName: '',
     itemAdditionalInfo: '',
     itemSection: '',
     itemChecked: false,
-  });
+  };
+
+  const [dialogFields, setDialogFields] = useState(emptyItem);
 
   useEffect(() => {
     if (selectedItem) {
@@ -43,7 +45,6 @@ const ItemEditDialog = ({
   const handleClose = () => setDialogOpen(false);
 
   const handleSubmit = () => {
-    setDialogOpen(false);
     const newItem = {
       id: dialogFields.itemId,
       name: dialogFields.itemName,
@@ -51,6 +52,8 @@ const ItemEditDialog = ({
       section: dialogFields.itemSection,
       checked: dialogFields.itemChecked,
     };
+    setDialogOpen(false);
+    setDialogFields(emptyItem);
     updateListItem(newItem);
   };
 
