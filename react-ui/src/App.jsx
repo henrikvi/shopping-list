@@ -45,7 +45,7 @@ function App() {
     )));
   };
 
-  const handleClick = (item) => () => {
+  const openItemEditDialog = (item) => () => {
     setDialogOpen(true);
     setSelectedItem(item);
   };
@@ -58,7 +58,7 @@ function App() {
           key={item.id}
           item={item}
           onToggle={handleToggle(item.id)}
-          onClick={handleClick(item)}
+          openItemEditDialog={openItemEditDialog(item)}
         />
       ))
   );
@@ -71,7 +71,7 @@ function App() {
           key={item.id}
           item={item}
           onToggle={handleToggle(item.id)}
-          onClick={handleClick(item)}
+          openItemEditDialog={openItemEditDialog(item)}
         />
       ))
   );
@@ -110,7 +110,7 @@ function App() {
           </List>
         </Paper>
       </Content>
-      <FloatingAddButton onClick={handleClick(
+      <FloatingAddButton openItemEditDialog={openItemEditDialog(
         {
           id: 6, name: '', section: '', checked: false, additionalInfo: '',
         },

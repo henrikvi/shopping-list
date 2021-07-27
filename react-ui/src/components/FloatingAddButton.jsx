@@ -12,18 +12,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FloatingAddButton = ({ onClick }) => {
+const FloatingAddButton = ({ openItemEditDialog }) => {
   const classes = useStyles();
 
   return (
-    <Fab className={classes.fab} onClick={onClick}>
+    <Fab className={classes.fab} onClick={openItemEditDialog}>
       <AddIcon />
     </Fab>
   );
 };
 
 FloatingAddButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  openItemEditDialog: PropTypes.func.isRequired,
 };
 
 export default FloatingAddButton;
