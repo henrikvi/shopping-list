@@ -14,4 +14,19 @@ const addItem = async (newItem) => {
   return response.data;
 };
 
-export default { getAllItems, addItem };
+const updateItem = async (updatedItem) => {
+  const response = await items.put(updatedItem.id.toString(), updatedItem);
+  return response.data;
+};
+
+const deleteItem = async (id) => {
+  const response = await items.delete(id.toString());
+  return response.data;
+};
+
+export default {
+  getAllItems,
+  addItem,
+  updateItem,
+  deleteItem,
+};

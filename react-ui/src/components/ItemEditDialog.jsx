@@ -9,12 +9,22 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { makeStyles } from '@material-ui/core/styles';
+import itemsService from '../services/http/items';
+
+const useStyles = makeStyles({
+  deleteButton: {
+    marginRight: 'auto',
+  },
+});
 
 const ItemEditDialog = ({
   dialogOpen,
   setDialogOpen,
   selectedItem,
   updateListItem,
+  deleteListItem,
 }) => {
   const emptyItem = {
     itemId: '',
@@ -57,6 +67,17 @@ const ItemEditDialog = ({
     updateListItem(newItem);
   };
 
+  const handleDelete = () => {
+    // eslint-disable-next-line no-alert
+    if (window.confirm('Really delete item?')) {
+      deleteListItem(dialogFields.itemId);
+      handleClose();
+      itemsService.deleteItem(dialogFields.itemId);
+    }
+  };
+
+  const classes = useStyles();
+
   return (
     <Dialog open={dialogOpen} onClose={handleClose}>
       <DialogTitle id="form-dialog-title">Edit item</DialogTitle>
@@ -89,12 +110,17 @@ const ItemEditDialog = ({
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Cancel
+        <Button onClick={handleDelete} className={classes.deleteButton} disabled={!dialogFields.itemId} color="secondary" startIcon={<DeleteIcon />}>
+          Delete
         </Button>
-        <Button onClick={handleSubmit} color="primary">
-          Submit
-        </Button>
+        <div>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} color="primary">
+            Submit
+          </Button>
+        </div>
       </DialogActions>
     </Dialog>
 
@@ -118,6 +144,7 @@ ItemEditDialog.propTypes = {
     checked: PropTypes.bool.isRequired,
   }),
   updateListItem: PropTypes.func.isRequired,
+  deleteListItem: PropTypes.func.isRequired,
 };
 
 ItemEditDialog.defaultProps = {

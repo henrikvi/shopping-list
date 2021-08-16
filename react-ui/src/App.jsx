@@ -89,10 +89,15 @@ function App() {
       setListItems(listItems.map((item) => (
         item.id !== newItem.id ? item : newItem
       )));
+      itemsService.updateItem(newItem);
     } else {
       setListItems(listItems.concat(newItem));
       itemsService.addItem(newItem);
     }
+  };
+
+  const deleteListItem = (id) => {
+    setListItems(listItems.filter((item) => id !== item.id));
   };
 
   return (
@@ -122,6 +127,7 @@ function App() {
         setDialogOpen={setDialogOpen}
         selectedItem={selectedItem}
         updateListItem={updateListItem}
+        deleteListItem={deleteListItem}
       />
     </Grid>
   );
