@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -10,6 +11,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import itemsService from '../services/http/items';
 
@@ -17,24 +19,20 @@ const useStyles = makeStyles({
   deleteButton: {
     marginRight: 'auto',
   },
+  fullwidthSwitch: {
+    display: 'block',
+  },
 });
 
 const ItemEditDialog = ({
   dialogOpen,
   setDialogOpen,
   selectedItem,
+  setSelectedItem,
   updateListItem,
   deleteListItem,
 }) => {
-  const emptyItem = {
-    itemId: '',
-    itemName: '',
-    itemAdditionalInfo: '',
-    itemSection: '',
-    itemChecked: false,
-  };
-
-  const [dialogFields, setDialogFields] = useState(emptyItem);
+  const [dialogFields, setDialogFields] = useState({});
 
   useEffect(() => {
     if (selectedItem) {
@@ -52,7 +50,11 @@ const ItemEditDialog = ({
     setDialogFields({ ...dialogFields, [event.target.name]: event.target.value })
   );
 
-  const handleClose = () => setDialogOpen(false);
+  const handleClose = () => {
+    setDialogOpen(false);
+    setDialogFields({});
+    setSelectedItem({});
+  };
 
   const handleSubmit = () => {
     const newItem = {
@@ -62,8 +64,7 @@ const ItemEditDialog = ({
       section: dialogFields.itemSection,
       checked: dialogFields.itemChecked,
     };
-    setDialogOpen(false);
-    setDialogFields(emptyItem);
+    handleClose();
     updateListItem(newItem);
   };
 
@@ -84,7 +85,7 @@ const ItemEditDialog = ({
       <DialogContent>
         <TextField
           name="itemName"
-          value={dialogFields.itemName}
+          value={dialogFields.itemName || ''}
           onChange={handleChange}
           label="Item name"
           fullWidth
@@ -92,7 +93,7 @@ const ItemEditDialog = ({
         />
         <TextField
           name="itemAdditionalInfo"
-          value={dialogFields.itemAdditionalInfo}
+          value={dialogFields.itemAdditionalInfo || ''}
           onChange={handleChange}
           label="Additional info"
           fullWidth
@@ -101,13 +102,19 @@ const ItemEditDialog = ({
         <FormControl margin="normal">
           <InputLabel>Section</InputLabel>
           <Select name="itemSection" native value={dialogFields.itemSection} onChange={handleChange}>
-            <option value="" aria-label="None" disabled />
             <option value="cold">Cold</option>
             <option value="dry">Dry</option>
             <option value="frozen">Frozen</option>
             <option value="vegetable">Vegetable</option>
           </Select>
         </FormControl>
+        <FormControlLabel
+          className={classes.fullwidthSwitch}
+          control={
+            <Switch name="itemChecked" checked={dialogFields.checked} onChange={(event) => setDialogFields({ ...dialogFields, itemChecked: !event.target.checked })} color="primary" />
+          }
+          label="Add to shopping list"
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleDelete} className={classes.deleteButton} disabled={!dialogFields.itemId} color="secondary" startIcon={<DeleteIcon />}>
@@ -130,18 +137,18 @@ const ItemEditDialog = ({
 ItemEditDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   setDialogOpen: PropTypes.func.isRequired,
+  setSelectedItem: PropTypes.func.isRequired,
   selectedItem: PropTypes.exact({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    additionalInfo: PropTypes.string.isRequired,
+    id: PropTypes.number,
+    name: PropTypes.string,
+    additionalInfo: PropTypes.string,
     section: PropTypes.oneOf([
-      '',
       'cold',
       'dry',
       'frozen',
       'vegetable',
     ]),
-    checked: PropTypes.bool.isRequired,
+    checked: PropTypes.bool,
   }),
   updateListItem: PropTypes.func.isRequired,
   deleteListItem: PropTypes.func.isRequired,

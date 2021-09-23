@@ -126,6 +126,7 @@ function App() {
         dialogOpen={dialogOpen}
         setDialogOpen={setDialogOpen}
         selectedItem={selectedItem}
+        setSelectedItem={setSelectedItem}
         updateListItem={updateListItem}
         deleteListItem={deleteListItem}
       />
