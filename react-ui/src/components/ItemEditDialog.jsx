@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -11,16 +10,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import itemsService from '../services/http/items';
 
 const useStyles = makeStyles({
   deleteButton: {
     marginRight: 'auto',
-  },
-  fullwidthSwitch: {
-    display: 'block',
   },
 });
 
@@ -108,13 +103,6 @@ const ItemEditDialog = ({
             <option value="vegetable">Vegetable</option>
           </Select>
         </FormControl>
-        <FormControlLabel
-          className={classes.fullwidthSwitch}
-          control={
-            <Switch name="itemChecked" checked={dialogFields.checked} onChange={(event) => setDialogFields({ ...dialogFields, itemChecked: !event.target.checked })} color="primary" />
-          }
-          label="Add to shopping list"
-        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleDelete} className={classes.deleteButton} disabled={!dialogFields.itemId} color="secondary" startIcon={<DeleteIcon />}>
