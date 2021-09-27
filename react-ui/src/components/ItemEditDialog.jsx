@@ -11,7 +11,6 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
-import itemsService from '../services/http/items';
 
 const useStyles = makeStyles({
   deleteButton: {
@@ -68,7 +67,6 @@ const ItemEditDialog = ({
     if (window.confirm('Really delete item?')) {
       deleteListItem(dialogFields.itemId);
       handleClose();
-      itemsService.deleteItem(dialogFields.itemId);
     }
   };
 

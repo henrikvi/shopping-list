@@ -98,6 +98,7 @@ function App() {
 
   const deleteListItem = (id) => {
     setListItems(listItems.filter((item) => id !== item.id));
+    itemsService.deleteItem(id);
   };
 
   return (
