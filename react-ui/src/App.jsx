@@ -56,31 +56,23 @@ function App() {
     setSelectedItem(item);
   };
 
-  const getMainListItems = () => (
-    listItems
-      .filter((item) => !item.checked)
-      .map((item) => (
-        <ShoppingListItem
-          key={item.id}
-          item={item}
-          toggleItemChecked={toggleItemChecked(item.id)}
-          openItemEditDialog={openItemEditDialog(item)}
-        />
-      ))
-  );
+  const mainListItems = listItems.filter((item) => !item.checked).map((item) => (
+    <ShoppingListItem
+      key={item.id}
+      item={item}
+      toggleItemChecked={toggleItemChecked(item.id)}
+      openItemEditDialog={openItemEditDialog(item)}
+    />
+  ))
 
-  const getCheckedListItems = () => (
-    listItems
-      .filter((item) => item.checked)
-      .map((item) => (
-        <ShoppingListItem
-          key={item.id}
-          item={item}
-          toggleItemChecked={toggleItemChecked(item.id)}
-          openItemEditDialog={openItemEditDialog(item)}
-        />
-      ))
-  );
+  const checkedListItems = listItems.filter((item) => item.checked).map((item) => (
+    <ShoppingListItem
+      key={item.id}
+      item={item}
+      toggleItemChecked={toggleItemChecked(item.id)}
+      openItemEditDialog={openItemEditDialog(item)}
+    />
+  ))
 
   const updateListItem = (newItem) => {
     if (!newItem.id) {
@@ -119,12 +111,12 @@ function App() {
         </AppBar>
         <Paper hidden={tabValue !== 'MainList'}>
           <List>
-            {getMainListItems()}
+            {mainListItems}
           </List>
         </Paper>
         <Paper hidden={tabValue !== 'CheckedList'}>
           <List>
-            {getCheckedListItems()}
+            {checkedListItems}
           </List>
         </Paper>
       </Content>
