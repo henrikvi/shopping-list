@@ -19,7 +19,13 @@ function App() {
   const [tabValue, setTabValue] = useState('MainList');
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const [selectedItem, setSelectedItem] = React.useState();
+  const emptyItem = {
+    name: '',
+    additionalInfo: '',
+    section: 'cold',
+    checked: false,
+  }
+  const [selectedItem, setSelectedItem] = React.useState(emptyItem);
 
   const getListItems = async () => {
     try {
@@ -122,7 +128,7 @@ function App() {
           </List>
         </Paper>
       </Content>
-      <FloatingAddButton openItemEditDialog={openItemEditDialog()} />
+      <FloatingAddButton openItemEditDialog={openItemEditDialog(emptyItem)} />
       <ItemEditDialog
         dialogOpen={dialogOpen}
         setDialogOpen={setDialogOpen}
@@ -130,6 +136,7 @@ function App() {
         setSelectedItem={setSelectedItem}
         updateListItem={updateListItem}
         deleteListItem={deleteListItem}
+        emptyItem={emptyItem}
       />
     </Grid>
   );

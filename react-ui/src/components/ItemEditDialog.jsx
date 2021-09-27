@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -25,38 +25,24 @@ const ItemEditDialog = ({
   setSelectedItem,
   updateListItem,
   deleteListItem,
+  emptyItem,
 }) => {
-  const [dialogFields, setDialogFields] = useState({});
-
-  useEffect(() => {
-    if (selectedItem) {
-      setDialogFields({
-        itemId: selectedItem.id,
-        itemName: selectedItem.name,
-        itemAdditionalInfo: selectedItem.additionalInfo,
-        itemSection: selectedItem.section,
-        itemChecked: selectedItem.checked,
-      });
-    }
-  }, [selectedItem]);
-
   const handleChange = (event) => (
-    setDialogFields({ ...dialogFields, [event.target.name]: event.target.value })
+    setSelectedItem({ ...selectedItem, [event.target.name]: event.target.value })
   );
 
   const handleClose = () => {
     setDialogOpen(false);
-    setDialogFields({});
-    setSelectedItem({});
+    setSelectedItem(emptyItem);
   };
 
   const handleSubmit = () => {
     const newItem = {
-      id: dialogFields.itemId,
-      name: dialogFields.itemName,
-      additionalInfo: dialogFields.itemAdditionalInfo,
-      section: dialogFields.itemSection,
-      checked: dialogFields.itemChecked,
+      id: selectedItem.id,
+      name: selectedItem.name,
+      additionalInfo: selectedItem.additionalInfo,
+      section: selectedItem.section,
+      checked: selectedItem.checked,
     };
     handleClose();
     updateListItem(newItem);
@@ -65,7 +51,7 @@ const ItemEditDialog = ({
   const handleDelete = () => {
     // eslint-disable-next-line no-alert
     if (window.confirm('Really delete item?')) {
-      deleteListItem(dialogFields.itemId);
+      deleteListItem(selectedItem.id);
       handleClose();
     }
   };
@@ -77,16 +63,16 @@ const ItemEditDialog = ({
       <DialogTitle id="form-dialog-title">Edit item</DialogTitle>
       <DialogContent>
         <TextField
-          name="itemName"
-          value={dialogFields.itemName || ''}
+          name="name"
+          value={selectedItem.name}
           onChange={handleChange}
           label="Item name"
           fullWidth
           margin="normal"
         />
         <TextField
-          name="itemAdditionalInfo"
-          value={dialogFields.itemAdditionalInfo || ''}
+          name="additionalInfo"
+          value={selectedItem.additionalInfo}
           onChange={handleChange}
           label="Additional info"
           fullWidth
@@ -94,7 +80,7 @@ const ItemEditDialog = ({
         />
         <FormControl margin="normal">
           <InputLabel>Section</InputLabel>
-          <Select name="itemSection" native value={dialogFields.itemSection} onChange={handleChange}>
+          <Select name="section" value={selectedItem.section} onChange={handleChange} native>
             <option value="cold">Cold</option>
             <option value="dry">Dry</option>
             <option value="frozen">Frozen</option>
@@ -103,7 +89,7 @@ const ItemEditDialog = ({
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleDelete} className={classes.deleteButton} disabled={!dialogFields.itemId} color="secondary" startIcon={<DeleteIcon />}>
+        <Button onClick={handleDelete} className={classes.deleteButton} disabled={!selectedItem.id} color="secondary" startIcon={<DeleteIcon />}>
           Delete
         </Button>
         <div>
@@ -124,24 +110,20 @@ ItemEditDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
   setDialogOpen: PropTypes.func.isRequired,
   setSelectedItem: PropTypes.func.isRequired,
-  selectedItem: PropTypes.exact({
+  selectedItem: PropTypes.shape({
     id: PropTypes.number,
-    name: PropTypes.string,
-    additionalInfo: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    additionalInfo: PropTypes.string.isRequired,
     section: PropTypes.oneOf([
       'cold',
       'dry',
       'frozen',
       'vegetable',
     ]),
-    checked: PropTypes.bool,
-  }),
+    checked: PropTypes.bool.isRequired,
+  }).isRequired,
   updateListItem: PropTypes.func.isRequired,
   deleteListItem: PropTypes.func.isRequired,
-};
-
-ItemEditDialog.defaultProps = {
-  selectedItem: undefined,
 };
 
 export default ItemEditDialog;
