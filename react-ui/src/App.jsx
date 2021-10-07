@@ -45,10 +45,13 @@ function App() {
     setTabValue(newValue);
   };
 
-  const moveToList = (id, newList) => () => {
+  const moveToList = (itemToMove, newList) => () => {
+    const newItem = {...itemToMove, list: newList};
+
     setListItems(listItems.map((item) => (
-      item.id !== id ? item : { ...item, list: newList }
-    )));
+      itemToMove.id === item.id ? newItem : item
+    )));    
+    itemsService.updateItem(newItem);
   };
 
   const openItemEditDialog = (item) => () => {
@@ -60,7 +63,7 @@ function App() {
     <ShoppingListItem
       key={item.id}
       item={item}
-      moveToList={moveToList(item.id, 'allItems')}
+      moveToList={moveToList(item, 'allItems')}
       openItemEditDialog={openItemEditDialog(item)}
     />
   ))
@@ -69,7 +72,7 @@ function App() {
     <ShoppingListItem
       key={item.id}
       item={item}
-      moveToList={moveToList(item.id, 'shoppingList')}
+      moveToList={moveToList(item, 'shoppingList')}
       openItemEditDialog={openItemEditDialog(item)}
     />
   ))
@@ -81,9 +84,6 @@ function App() {
     }
 
     if (listItems.find((item) => item.id === newItem.id)) {
-      // If an item with the same id exists:
-      // map through items, return unmodified item if
-      // id doesn't match and newItem if it matches
       setListItems(listItems.map((item) => (
         item.id !== newItem.id ? item : newItem
       )));
