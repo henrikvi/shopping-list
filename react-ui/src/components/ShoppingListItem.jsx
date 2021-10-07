@@ -11,12 +11,12 @@ import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import AddIcon from '@material-ui/icons/Add';
 
-const ShoppingListItem = ({ item, toggleItemChecked, openItemEditDialog }) => {
+const ShoppingListItem = ({ item, moveToList, openItemEditDialog }) => {
   const {
     id,
     name,
     section,
-    checked,
+    list,
     additionalInfo,
   } = item;
 
@@ -24,8 +24,8 @@ const ShoppingListItem = ({ item, toggleItemChecked, openItemEditDialog }) => {
     <ListItem id={id} section={section}>
       <ListItemText primary={name} secondary={additionalInfo} />
       <ListItemIcon>
-        <IconButton color="primary" onClick={toggleItemChecked}>
-          {checked ? <AddIcon /> : <CheckIcon />}
+        <IconButton color="primary" onClick={moveToList}>
+          {list === 'allItems' ? <AddIcon /> : <CheckIcon />}
         </IconButton>
       </ListItemIcon>
       <ListItemSecondaryAction>
@@ -43,9 +43,9 @@ ShoppingListItem.propTypes = {
     name: PropTypes.string.isRequired,
     section: PropTypes.string.isRequired,
     additionalInfo: PropTypes.string.isRequired,
-    checked: PropTypes.bool.isRequired,
+    list: PropTypes.oneOf(['shoppingList', 'allItems']),
   }).isRequired,
-  toggleItemChecked: PropTypes.func.isRequired,
+  moveToList: PropTypes.func.isRequired,
   openItemEditDialog: PropTypes.func.isRequired,
 };
 

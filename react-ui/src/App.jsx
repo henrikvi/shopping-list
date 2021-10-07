@@ -16,14 +16,14 @@ import itemsService from './services/http/items';
 
 function App() {
   const [listItems, setListItems] = useState([]);
-  const [tabValue, setTabValue] = useState('MainList');
+  const [tabValue, setTabValue] = useState('ShoppingList');
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const emptyItem = {
     name: '',
     additionalInfo: '',
     section: 'cold',
-    checked: false,
+    list: 'shoppingList',
   }
   const [selectedItem, setSelectedItem] = React.useState(emptyItem);
 
@@ -45,9 +45,9 @@ function App() {
     setTabValue(newValue);
   };
 
-  const toggleItemChecked = (id) => () => {
+  const moveToList = (id, newList) => () => {
     setListItems(listItems.map((item) => (
-      item.id !== id ? item : { ...item, checked: !item.checked }
+      item.id !== id ? item : { ...item, list: newList }
     )));
   };
 
@@ -56,20 +56,20 @@ function App() {
     setSelectedItem(item);
   };
 
-  const mainListItems = listItems.filter((item) => !item.checked).map((item) => (
+  const shoppingListItems = listItems.filter((item) => item.list === 'shoppingList').map((item) => (
     <ShoppingListItem
       key={item.id}
       item={item}
-      toggleItemChecked={toggleItemChecked(item.id)}
+      moveToList={moveToList(item.id, 'allItems')}
       openItemEditDialog={openItemEditDialog(item)}
     />
   ))
 
-  const checkedListItems = listItems.filter((item) => item.checked).map((item) => (
+  const allItems = listItems.filter((item) => item.list === 'allItems' ).map((item) => (
     <ShoppingListItem
       key={item.id}
       item={item}
-      toggleItemChecked={toggleItemChecked(item.id)}
+      moveToList={moveToList(item.id, 'shoppingList')}
       openItemEditDialog={openItemEditDialog(item)}
     />
   ))
@@ -105,18 +105,18 @@ function App() {
       <Content>
         <AppBar position="static" color="default" elevation={2}>
           <Tabs value={tabValue} onChange={handleTabChange} variant="fullWidth">
-            <Tab label="Shopping list" value="MainList" />
-            <Tab label="All items" value="CheckedList" />
+            <Tab label="Shopping list" value="ShoppingList" />
+            <Tab label="All items" value="AllItems" />
           </Tabs>
         </AppBar>
-        <Paper hidden={tabValue !== 'MainList'}>
+        <Paper hidden={tabValue !== 'ShoppingList'}>
           <List>
-            {mainListItems}
+            {shoppingListItems}
           </List>
         </Paper>
-        <Paper hidden={tabValue !== 'CheckedList'}>
+        <Paper hidden={tabValue !== 'AllItems'}>
           <List>
-            {checkedListItems}
+            {allItems}
           </List>
         </Paper>
       </Content>

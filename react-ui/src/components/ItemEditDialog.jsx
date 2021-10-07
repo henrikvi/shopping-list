@@ -37,15 +37,8 @@ const ItemEditDialog = ({
   };
 
   const handleSubmit = () => {
-    const newItem = {
-      id: selectedItem.id,
-      name: selectedItem.name,
-      additionalInfo: selectedItem.additionalInfo,
-      section: selectedItem.section,
-      checked: selectedItem.checked,
-    };
     handleClose();
-    updateListItem(newItem);
+    updateListItem(selectedItem);
   };
 
   const handleDelete = () => {
@@ -120,7 +113,7 @@ ItemEditDialog.propTypes = {
       'frozen',
       'vegetable',
     ]),
-    checked: PropTypes.bool.isRequired,
+    list: PropTypes.oneOf(['shoppingList', 'allItems']),
   }).isRequired,
   updateListItem: PropTypes.func.isRequired,
   deleteListItem: PropTypes.func.isRequired,
