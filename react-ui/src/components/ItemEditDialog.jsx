@@ -13,6 +13,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ListSwitch from './ListSwitch';
 
 const useStyles = makeStyles({
   deleteButton: {
@@ -82,6 +83,9 @@ const ItemEditDialog = ({
             <option value="vegetable">Vegetable</option>
           </Select>
         </FormControl>
+        <ListSwitch list={selectedItem.list} handleChange={handleChange}>
+          Include in shopping list
+        </ListSwitch>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleDelete} className={classes.deleteButton} disabled={!selectedItem.id} color="secondary" startIcon={<DeleteIcon />}>
